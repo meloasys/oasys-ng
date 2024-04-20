@@ -1,9 +1,15 @@
 # modify from https://github.com/opendilab/DI-engine/tree/main/dizoo/gym_anytrading
 
 from easydict import EasyDict
+import datetime
+
+DT = datetime.datetime.now().strftime("%y%m%d%H%M%S")
+SEED = 24
+EXP_NAME = f'stock_dqn_seed-{SEED}_{DT}'
 
 stocks_dqn_config = dict(
-    exp_name='tb_logs/stocks_dqn_seed0',
+    seed=SEED,
+    exp_name=EXP_NAME,
     env=dict(
         # Whether to use shared memory. Only effective if "env_manager_type" is 'subprocess'
         # Env number respectively for collector and evaluator.
@@ -35,8 +41,9 @@ stocks_dqn_config = dict(
         model=dict(
             obs_shape=62,
             action_shape=5,
-            encoder_hidden_size_list=[128],
-            head_layer_num=1,
+            encoder_hidden_size_list=[128, 256, 128],
+            # head_layer_num=1,
+            head_layer_num=3,
             # Whether to use dueling head.
             dueling=True,
         ),
@@ -47,7 +54,8 @@ stocks_dqn_config = dict(
         # learn_mode config
         learn=dict(
             update_per_collect=10,
-            batch_size=64,
+            # batch_size=64,
+            batch_size=256,
             learning_rate=0.001,
             # Frequency of target network update.
             target_update_freq=100,
