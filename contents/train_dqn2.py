@@ -106,22 +106,27 @@ def main():
         SEED = 24
         EXP_NAME = f'{LOG_DIR}/stock_dqn_seed-{SEED}_{DT}'
         
+        i += 2
+        
         if i == 0:
             h_layer = [128, 256, 128]
+            # h_layer = [1280, 2560, 12800, 6400]
             head_layer_num=3
             
         elif i == 1:
-            h_layer = [128, 2560, 1280, 128]
+            h_layer = [1280, 2560, 1280]
             head_layer_num=3
             
         elif i == 2:
-            h_layer = [128, 2560, 1280, 512]
+            h_layer = [1280, 12800, 4120]
             head_layer_num=3
             
         elif i == 3:
-            h_layer = [128, 2560, 1280, 1280]
+            h_layer = [1280, 2560, 12800, 6400]
             head_layer_num=3
-            
+        
+        if i > 3:
+            break
         
         cfg.policy.model.encoder_hidden_size_list = h_layer
         cfg.policy.model.head_layer_num = head_layer_num
@@ -182,7 +187,7 @@ def main():
             task.use(online_logger(train_show_freq=10, cfg=cfg))
             # task.use(CkptSaver(policy, cfg.exp_name, train_freq=20))
 
-            task.run(max_step=10)
+            task.run(max_step=20000)
 
         del cfg, task
 

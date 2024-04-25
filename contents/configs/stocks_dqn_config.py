@@ -3,9 +3,10 @@
 from easydict import EasyDict
 import datetime
 
+LOG_DIR='tb_logs'
 DT = datetime.datetime.now().strftime("%y%m%d%H%M%S")
 SEED = 24
-EXP_NAME = f'stock_dqn_seed-{SEED}_{DT}'
+EXP_NAME = f'{LOG_DIR}/stock_dqn_seed-{SEED}_{DT}'
 
 stocks_dqn_config = dict(
     seed=SEED,
@@ -37,13 +38,12 @@ stocks_dqn_config = dict(
     policy=dict(
         # Whether to use cuda for network.
         # cuda=True,
-        cuda=False,
+        cuda=True,
         model=dict(
             obs_shape=62,
             action_shape=5,
-            encoder_hidden_size_list=[128, 256, 128],
-            # head_layer_num=1,
-            head_layer_num=3,
+            encoder_hidden_size_list=[128],
+            head_layer_num=1,
             # Whether to use dueling head.
             dueling=True,
         ),
@@ -54,12 +54,16 @@ stocks_dqn_config = dict(
         # learn_mode config
         learn=dict(
             update_per_collect=10,
-            # batch_size=64,
             batch_size=256,
             learning_rate=0.001,
             # Frequency of target network update.
             target_update_freq=100,
             ignore_done=True,
+            learner = dict(
+                    dataloader = dict(
+                            num_workers=64
+                            ),
+            ),
         ),
         # collect_mode config
         collect=dict(

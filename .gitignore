@@ -3,6 +3,7 @@ data
 src
 tb_logs
 *finrl*
+z_note*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

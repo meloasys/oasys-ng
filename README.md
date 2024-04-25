@@ -34,3 +34,13 @@ Mod list
         writer = DistributedWriter.get_instance(_cfg.exp_name)
         # do same on offline_logger function
         ```
+
+
+Temp mod
+1. stop when reward is not ratio
+    - temp fix
+        ```python
+        # DI-engine/ding/framework/middleware/functional/evaluator.py 287 add below after stop_flag var
+        stop_flag = False
+
+        ```
